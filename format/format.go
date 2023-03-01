@@ -12,7 +12,10 @@ type LogParts map[string]interface{}
 type LogParser interface {
 	Parse() error
 	Dump() LogParts
-	Location(*time.Location)
+	WithTimestampFormat(string)
+	WithLocation(*time.Location)
+	WithHostname(string)
+	WithTag(string)
 }
 
 type Format interface {
@@ -26,4 +29,20 @@ type parserWrapper struct {
 
 func (w *parserWrapper) Dump() LogParts {
 	return LogParts(w.LogParser.Dump())
+}
+
+func (w *parserWrapper) Parse() error {
+	return w.LogParser.Parse()
+}
+func (w *parserWrapper) WithTimestampFormat(s string) {
+	w.LogParser.WithTimestampFormat(s)
+}
+func (w *parserWrapper) WithLocation(l *time.Location) {
+	w.LogParser.WithLocation(l)
+}
+func (w *parserWrapper) WithHostname(hostname string) {
+	w.LogParser.WithHostname(hostname)
+}
+func (w *parserWrapper) WithTag(t string) {
+	w.LogParser.WithTag(t)
 }

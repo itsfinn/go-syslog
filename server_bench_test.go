@@ -20,7 +20,13 @@ func (noopFormatter) Dump() format.LogParts {
 	return format.LogParts{}
 }
 
-func (noopFormatter) Location(*time.Location) {}
+func (noopFormatter) WithTimestampFormat(string) {}
+
+func (noopFormatter) WithLocation(*time.Location) {}
+
+func (noopFormatter) WithHostname(string) {}
+
+func (noopFormatter) WithTag(string) {}
 
 func (n noopFormatter) GetParser(l []byte) format.LogParser {
 	return n
